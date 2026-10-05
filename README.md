@@ -29,7 +29,17 @@ git clone https://github.com/WAIS-CLOUD-SORTER/liquid-glass.git ~/.claude/skills
 
 ### Manual
 
-Download `liquid-glass.skill` from the releases, or copy this repo's directory into any skills folder your agent scans. The unit of distribution is plain Markdown + CSS — there is no build step.
+Copy this repository's directory into any skills folder your agent scans (`~/.config/opencode/skills/`,
+`~/.claude/skills/`, `.agents/skills/`). The unit of distribution is plain Markdown + CSS — there is no
+build step, no bundler and no packaged binary.
+
+There are no releases and no `.skill` archive: **this repository is the artifact.** Clone it and pin the
+commit SHA you audited, so the content you reviewed is exactly the content your agent loads:
+
+```bash
+git clone https://github.com/WAIS-CLOUD-SORTER/liquid-glass.git ~/.config/opencode/skills/liquid-glass
+git -C ~/.config/opencode/skills/liquid-glass checkout <commit-sha>
+```
 
 **Requirements:** none. `assets/liquid-glass.css` is a drop-in stylesheet with zero dependencies. Node is only needed if you want to regenerate the Tier B displacement map.
 
