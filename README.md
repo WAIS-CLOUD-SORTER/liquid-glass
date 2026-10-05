@@ -1,6 +1,6 @@
 # Liquid Glass — an OpenCode skill
 
-Build **Apple's Liquid Glass** — the material from iOS 26 / macOS Tahoe 26 (WWDC25) — as an agent skill. Give any coding agent a surface and a stack, and it produces translucent, refractive, light-reactive floating UI instead of generic glassmorphism.
+Build Liquid Glass as an agent skill. Give any coding agent a surface and a stack, and it produces translucent, refractive, light-reactive floating UI instead of generic glassmorphism.
 
 > **Not just a blur.** Liquid Glass is a material: it refracts what is under it, reflects light from around it, and lenses along its edges. The skill encodes Apple's three governing principles — **hierarchy**, **harmony**, **consistency** — as rules an agent can actually follow.
 
@@ -38,7 +38,6 @@ Download `liquid-glass.skill` from the releases, or copy this repo's directory i
 Ask naturally. The skill's description triggers on the concept, not the keyword:
 
 > "Give this toolbar the Liquid Glass treatment"
-> "This glassmorphism looks cheap — make it look like iOS 26"
 > "Build a ⌘K palette with Apple's new design language"
 
 When invoked without a specific task it replies with exactly one line and waits:
@@ -109,14 +108,7 @@ Everything is tokenized — light mode, dark mode and the regular / clear / prom
 
 ## Benchmark
 
-Measured with `skill-creator`'s eval harness: 3 eval prompts × with-skill / without-skill, graded by a rubric-driven LLM judge.
-
-| Eval | With skill | Without skill |
-| --- | --- | --- |
-| iOS music player (Spanish prompt) | 7 / 7 | 5 / 7 |
-| React + Tailwind v4 command palette | 6 / 6 | 3 / 6 |
-| Fix bad glass (repair task, 6 assertions) | 4 / 6 | 2 / 6 |
-| **Aggregate** | **89.0 %** | **51.3 %** |
+Measured with `skill-creator`'s eval harness: 3 eval prompts × with-skill / without-skill, graded by a rubric-driven LLM judge
 
 **Delta: +0.38.** See [BENCHMARK.md](BENCHMARK.md) for methodology and the open gaps.
 
