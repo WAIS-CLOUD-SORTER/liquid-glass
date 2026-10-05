@@ -1,0 +1,54 @@
+name: check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  material:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      # 1. The material's own stylesheet must satisfy every rule it teaches.
+      - name: check assets/liquid-glass.css
+        run: node scripts/check-glass.mjs assets/liquid-glass.css --strict
+
+      # 2. Every --token named in the documentation must exist in the stylesheet,
+      #    and no documented example may hardcode a value that has a token.
+      #    This is the guard that stops the docs and the CSS from drifting apart.
+      - name: check documentation token vocabulary
+        run: |
+          node scripts/check-glass.mjs --strict \
+            SKILL.md \
+            references/material.md \
+            references/components.md \
+            references/components-advanced.md \
+            references/react-tailwind.md \
+            references/frameworks.md \
+            references/swiftui.md \
+            references/refraction-advanced.md \
+            references/review.md \
+            README.md
+
+      # 3. The committed displacement map must be exactly what the generator
+      #    produces — otherwise the shipped map silently diverges from the
+      #    documented tuning flags.
+      - name: verify refraction-map.svg is generated
+        run: node assets/make-refraction-map.mjs --check assets/refraction-map.svg
+
+      # 4. Meta-test: the deliberately-broken fixture must still fail the
+      #    checker. Without this, a change that breaks the checker itself would
+      #    turn every step above into a green no-op.
+      - name: the checker must reject the bad-glass fixture
+        run: |
+          if node scripts/check-glass.mjs evals/inputs/bad-glass.html --strict; then
+            echo "::error::check-glass.mjs passed the deliberately-broken fixture — the checker has regressed"
+            exit 1
+          fi
+          echo "ok: bad-glass.html is still rejected"

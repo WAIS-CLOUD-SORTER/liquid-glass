@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Analytics — glassy</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; font-family: system-ui, sans-serif;
+    background: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="40" height="40"%3E%3Crect width="40" height="40" fill="%234b6cb7"/%3E%3Cpath d="M0 20h40M20 0v40" stroke="%23182a5a" stroke-width="6"/%3E%3C/svg%3E');
+    color: #eee;
+  }
+  /* my fancy glass — everyone says it looks cheap */
+  .glass {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    padding: 16px;
+    margin: 12px;
+    color: #999;
+    font-size: 13px;
+  }
+  .glass .glass {
+    background: rgba(255, 255, 255, 0.15);
+    margin: 8px;
+  }
+  h1 { font-size: 14px; font-weight: 400; color: #aaa; margin: 0 0 8px; }
+  a { color: #7fbfff; }
+  .btn { display: inline-block; background: rgba(255,255,255,.12); border: 1px solid #fff3; border-radius: 4px; padding: 6px 10px; color: #ccc; }
+  .badge { background: rgba(255,255,255,.2); border-radius: 3px; padding: 1px 5px; font-size: 11px; }
+  .nav { display: flex; gap: 8px; padding: 10px 12px; background: rgba(0,0,0,.35); backdrop-filter: blur(2px); position: sticky; top: 0; }
+  .nav .tab { color: #888; font-size: 13px; }
+  .nav .tab.active { color: #fff; background: rgba(255,255,255,.18); border-radius: 4px; padding: 4px 8px; }
+</style>
+</head>
+<body>
+  <div class="nav">
+    <span class="tab active">Overview</span><span class="tab">Reports</span><span class="tab">Team</span>
+  </div>
+  <div class="glass">
+    <h1>Weekly active users</h1>
+    <p>12,480 <span class="badge">+4.2%</span></p>
+    <div class="glass">
+      <h1>Top channel</h1>
+      <p>Organic search — <a href="#">see details</a></p>
+      <span class="btn">Export</span>
+    </div>
+  </div>
+  <div class="glass">
+    <h1>Retention</h1>
+    <p>Day 1: 42% — Day 7: 18% — Day 30: 7%</p>
+    <span class="btn">Open cohort</span>
+  </div>
+</body>
+</html>

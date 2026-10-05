@@ -1,0 +1,125 @@
+{
+  "skill_name": "liquid-glass",
+  "evals": [
+    {
+      "id": 0,
+      "eval_name": "ios-music-player",
+      "prompt": "Hazme una página HTML de un solo archivo con un reproductor de música estilo iOS 26: barra de herramientas flotante de vidrio arriba, tab bar en cápsula abajo, fondo de álbum colorido, y modo oscuro. Que se vea como el Liquid Glass de Apple, no como glassmorphism genérico.",
+      "expected_output": "A single self-contained HTML file with a floating glass toolbar, a capsule tab bar with a selected 'lens', light+dark handling, and a real Liquid Glass material (rim light, tinted fill, backdrop-filter) rather than plain blur.",
+      "files": [],
+      "expectations": [
+        "The material is declared once with custom-property tokens; fills and blur radii are not hardcoded per component",
+        "The floating toolbar has the three rim cues: a top catch-light inset shadow, a bottom bounce, and a lift/separate shadow",
+        "The tab bar's selected item is a near-opaque lens (alpha >= 0.85) or a low-alpha wash (<= 0.15), not a mid-alpha pill on mid-alpha glass",
+        "Tab bar and toolbar radii are concentric: the child's radius equals the container radius minus the inset padding",
+        "The concentricity is expressed with custom properties that are actually declared (e.g. --radius-window and --inset resolve, not left undefined)",
+        "The tab bar uses border-radius: 999px as a capsule, and the toolbar's radius follows the window radius rather than a fixed arbitrary value",
+        "Dark mode is handled by swapping the token values (tint, fill, rim, glow, lift, hairline, border) rather than a second duplicated rule",
+        "color-scheme is declared so form controls and the canvas follow the theme",
+        "prefers-reduced-transparency, prefers-reduced-motion and prefers-contrast blocks are all present",
+        "An @supports not (backdrop-filter) fallback exists so browsers without backdrop-filter stay legible",
+        "Text over glass uses weight >= 500 and a real foreground/background contrast pair, never mid-gray on translucent white",
+        "Only transform and opacity are animated; backdrop-filter, filter and box-shadow blur are not transitioned",
+        "Interactive glass elements have a visible :focus-visible style",
+        "No element with its own backdrop-filter is nested inside another element that also has one",
+        "The sheen follows the pointer via rAF-throttled writes to --glass-mx/--glass-my, with listeners cleaned up, and getBoundingClientRect is not called synchronously per pointermove event"
+      ]
+    },
+    {
+      "id": 1,
+      "eval_name": "react-command-palette",
+      "prompt": "Build me a React + Tailwind v4 command palette (⌘K) with Apple's Liquid Glass: a translucent panel floating over the page content, a capsule search input, result rows with one highlighted 'lens' row, and a sheen that follows the pointer. Keyboard navigation included. Give me the actual files.",
+      "expected_output": "A .tsx component plus the Tailwind v4 stylesheet (@utility glass or equivalent single tokenized definition), pointer sheen driven by CSS variables with rAF, proper aria/keyboard handling, dark mode and reduced-transparency fallback.",
+      "files": [],
+      "expectations": [
+        "Tailwind v4 @utility is used for the material rather than scattering arbitrary values like backdrop-blur-[22px] and bg-white/[.46] across the markup",
+        "The full token set is declared, including the tokens that dark mode overrides (tint, fill, rim, glow, lift, hairline, border) — not a partial set",
+        "@property is declared for the tokens that are transitioned, so the transition interpolates instead of snapping",
+        "Dark mode swaps token values through the .dark class / dark variant rather than duplicating utilities",
+        "The highlighted result row is near-opaque or a low-alpha wash, never a mid-alpha surface stacked on the translucent panel",
+        "The search input is not itself blurred; it is an inset well or a solid field inside the glass panel",
+        "prefers-reduced-transparency, prefers-contrast, prefers-reduced-motion and forced-colors blocks are present in the stylesheet",
+        "The component is marked \"use client\" (or otherwise client-only) because it uses useEffect and refs",
+        "Pointer sheen writes only CSS variables, is rAF-throttled, and removes its event listener and cancels any pending frame on unmount",
+        "The palette has correct ARIA (role, aria-modal or combobox semantics, labelled by the input) and full keyboard navigation with a visible focus ring",
+        "The component renders and behaves correctly with JavaScript disabled: the static render still shows the material, because --glass-mx/--glass-my have defaults",
+        "No animation of backdrop-filter, filter or box-shadow blur"
+      ]
+    },
+    {
+      "id": 2,
+      "eval_name": "fix-bad-glass",
+      "prompt": "This is my current 'glass' UI and two people told me it looks cheap and that the text is hard to read. Fix it so it looks like Apple's Liquid Glass and stays legible, including for people who turn transparency off.",
+      "expected_output": "Corrected HTML/CSS where the naive glassmorphism becomes a proper Liquid Glass material: real rim/specular light, tokenized fill/blur, readable text contrast, no nested glass stacking, reduced-transparency and contrast fallbacks, dark mode.",
+      "files": ["evals/inputs/bad-glass.html"],
+      "expectations": [
+        "The nested glass panel inside another glass panel is flattened: no element carries its own backdrop-filter while sitting inside another element that also has one. A low-alpha lens or flat highlight inside a glass surface is acceptable and is NOT a defect",
+        "Every surface that holds text people read for more than a glance (the metric panels, the nav labels) has an opaque or near-opaque surface: --glass-fill >= 0.85, or no glass at all",
+        "The material is tokenized: fills and blur radii are declared as custom properties in one place and referenced, not written as rgba() literals in each rule",
+        "prefers-reduced-transparency is handled by raising the fill and dropping backdrop-filter, and it sets tokens rather than overriding background with a raw colour",
+        "prefers-contrast and prefers-reduced-motion are handled, and forced-colors is handled so the surface keeps a visible silhouette in Windows High Contrast",
+        "An @supports not (backdrop-filter) fallback exists",
+        "The blur radius is proportionate to surface size rather than one value for every element",
+        "Text contrast is fixed by raising the fill or changing the text, not by darkening mid-gray text further",
+        "Radii are concentric, and the tokens the calc() depends on are declared",
+        "Dark mode exists and the rim/glow are reduced rather than copied from the light palette",
+        "The fix keeps the layout recognisable — it repairs the material rather than rewriting the page"
+      ]
+    },
+    {
+      "id": 3,
+      "eval_name": "audit-existing-glass",
+      "prompt": "Here's our dashboard CSS, it's been in production for two years and people keep saying it looks cheap and washed out. I don't want you to rewrite it, I want to know what's actually wrong and in what order I should fix it.",
+      "expected_output": "A prioritised review: findings grouped by severity, each with a file:line location, what it costs the user, and a concrete fix — plus the order to apply them in.",
+      "files": ["evals/inputs/bad-glass.html"],
+      "expectations": [
+        "Findings are grouped by severity (blocking / wrong material / polish) rather than listed as an unordered list",
+        "Each finding cites a file and line or a specific selector",
+        "Each finding states what it costs the user, not just what is stylistically wrong",
+        "Each finding includes a concrete fix, not just a complaint",
+        "Issues that are invisible in a screenshot — missing reduced-transparency, Windows High Contrast, a backdrop root created by an ancestor filter — are still reported",
+        "The review does not recommend putting glass on surfaces that are not floating chrome",
+        "The review does not claim every preference is a defect; surfaces that already pass are left alone",
+        "The fix order puts legibility and accessibility before craft/polish",
+        "The reviewer runs the bundled checker or otherwise applies the skill's static checks rather than only eyeballing the CSS"
+      ]
+    },
+    {
+      "id": 4,
+      "eval_name": "tier-b-refraction",
+      "prompt": "I want real glass refraction on this hero panel — the edges should actually bend the content behind them, not just blur it. It only needs to work in Chrome.",
+      "expected_output": "Tier B: an SVG feDisplacementMap filter fed by a displacement map, applied via backdrop-filter: url(#...), with Tier A still shipping as the fallback behind @supports, and the honest constraints stated.",
+      "files": [],
+      "expectations": [
+        "Tier A still ships as the baseline and the refraction is gated behind a feature test (@supports or CSS.supports), so Safari and Firefox keep the layered-glass look",
+        "The filter uses feDisplacementMap with an feImage displacement map, and states the channel semantics (R = horizontal shift, G = vertical shift, 0x80 = neutral)",
+        "The filter region and the feImage box are kept in sync, extended slightly past the element so the ramp's extreme end falls outside the visible box",
+        "color-interpolation-filters=\"sRGB\" is set on the filter",
+        "preserveAspectRatio=\"none\" is used so the map stretches to any element size",
+        "The honest limitation is stated: backdrop-filter: url() is Chromium-only, and it cannot bend content outside the element's bounds",
+        "The cost is acknowledged — displacement plus blur over a moving backdrop is per-frame — and the effect is limited to a few hero elements",
+        "The map is either regenerated with make-refraction-map.mjs and explicit flags, or the existing assets/refraction-map.svg is reused; the ramp (where the bend happens) and the filter's scale (how much) are treated as separate knobs",
+        "The mapping from R/G channels uses xChannelSelector and yChannelSelector",
+        "The Tier A fallback is not removed when Tier B is added"
+      ]
+    },
+    {
+      "id": 5,
+      "eval_name": "native-swiftui-toolbar",
+      "prompt": "Port our web floating toolbar to the iOS app. It's currently a custom blurred view we drew ourselves. Make it use Apple's actual Liquid Glass and keep the collapse-into-a-pill animation.",
+      "expected_output": "SwiftUI using the system material (.glassEffect / .buttonStyle(.glass)) with GlassEffectContainer grouping and a shared @Namespace morph, deleting the hand-rolled blur.",
+      "files": [],
+      "expectations": [
+        "The hand-rolled blur/background is removed rather than stacked on top of the system material",
+        "Controls are grouped in a GlassEffectContainer with a spacing value, so nearby glass elements merge into one surface instead of reading as separate chips",
+        "The collapse-into-a-pill animation uses glassEffectID with a shared @Namespace, all inside the same GlassEffectContainer, with the state change animated",
+        "The same glass style and tint is used on every element participating in the morph",
+        "One variant per surface (regular or clear) and at most one prominent/primary action in the view",
+        "No .clipShape() is applied to a glass view — the shape is expressed with the effect's `in:` parameter",
+        "Long-form or read-for-content text is not placed on a .clear surface",
+        "Accessibility is verified rather than assumed: Reduce Transparency, Increase Contrast, Dynamic Type, and both light and dark appearance are called out as test cases",
+        "The answer does not invent APIs — it uses names from the iOS 26 SDK and flags that the compiler / Apple's Adopting Liquid Glass page is the canonical reference if a name differs"
+      ]
+    }
+  ]
+}
