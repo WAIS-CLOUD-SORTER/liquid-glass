@@ -1,0 +1,26 @@
+{
+  "skill_name": "liquid-glass",
+  "evals": [
+    {
+      "id": 0,
+      "eval_name": "ios-music-player",
+      "prompt": "Hazme una página HTML de un solo archivo con un reproductor de música estilo iOS 26: barra de herramientas flotante de vidrio arriba, tab bar en cápsula abajo, fondo de álbum colorido, y modo oscuro. Que se vea como el Liquid Glass de Apple, no como glassmorphism genérico.",
+      "expected_output": "A single self-contained HTML file with a floating glass toolbar, a capsule tab bar with a selected 'lens', light+dark handling, and a real Liquid Glass material (rim light, tinted fill, backdrop-filter) rather than plain blur.",
+      "files": []
+    },
+    {
+      "id": 1,
+      "eval_name": "react-command-palette",
+      "prompt": "Build me a React + Tailwind v4 command palette (⌘K) with Apple's Liquid Glass: a translucent panel floating over the page content, a capsule search input, result rows with one highlighted 'lens' row, and a sheen that follows the pointer. Keyboard navigation included. Give me the actual files.",
+      "expected_output": "A .tsx component plus the Tailwind v4 stylesheet (@utility glass or equivalent single tokenized definition), pointer sheen driven by CSS variables with rAF, proper aria/keyboard handling, dark mode and reduced-transparency fallback.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "eval_name": "fix-bad-glass",
+      "prompt": "This is my current 'glass' UI and two people told me it looks cheap and that the text is hard to read. Fix it so it looks like Apple's Liquid Glass and stays legible, including for people who turn transparency off.",
+      "expected_output": "Corrected HTML/CSS where the naive glassmorphism becomes a proper Liquid Glass material: real rim/specular light, tokenized fill/blur, readable text contrast, no nested glass stacking, reduced-transparency and contrast fallbacks, dark mode.",
+      "files": ["evals/inputs/bad-glass.html"]
+    }
+  ]
+}

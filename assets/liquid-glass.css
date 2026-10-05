@@ -1,0 +1,190 @@
+/* ==========================================================================
+   liquid-glass.css — Apple Liquid Glass material, drop-in
+   Tier A (all modern browsers). Refraction (Tier B) lives in
+   references/material.md and is progressive enhancement only.
+
+   Usage:
+     <div class="glass">…</div>
+     <div class="glass glass--clear">…</div>
+     <button class="glass glass--prominent glass--capsule">…</button>
+
+   Tuning: override the --glass-* tokens on :root, .dark, or on any element.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Registered tokens — without @property a custom property is a plain string:
+   it CANNOT be transitioned or animated (the value snaps instead of easing),
+   and the gradient that reads it never re-renders smoothly.
+   Only register interpolable scalars; --glass-tint/--glass-lift stay unregistered.
+   -------------------------------------------------------------------------- */
+@property --glass-fill   { syntax: "<number>";    inherits: true; initial-value: 0.46; }
+@property --glass-sheen  { syntax: "<number>";    inherits: true; initial-value: 0.28; }
+@property --glass-mx     { syntax: "<percentage>"; inherits: true; initial-value: 50%; }
+@property --glass-my     { syntax: "<percentage>"; inherits: true; initial-value: 0%; }
+@property --glass-radius { syntax: "<length>";    inherits: true; initial-value: 28px; }
+@property --glass-blur   { syntax: "<length>";    inherits: true; initial-value: 22px; }
+
+:root {
+  /* shape */
+  --glass-radius: 28px;
+  /* material */
+  --glass-blur: 22px;
+  --glass-sat: 180%;
+  --glass-fill: 0.46;          /* body opacity — raise when the backdrop is busy */
+  --glass-tint: 255 255 255;   /* rgb triplet */
+  /* light */
+  --glass-rim: 0.55;           /* specular rim strength */
+  --glass-glow: 0.10;          /* inner glow = thickness */
+  --glass-lift: 0 12px 32px rgb(0 0 0 / 0.18);
+  --glass-hairline: rgb(0 0 0 / 0.05);
+  --glass-border: rgb(255 255 255 / 0.22);
+  /* reactive sheen — written by pointer/scroll JS */
+  --glass-mx: 50%;
+  --glass-my: 0%;
+  --glass-sheen: 0.28;
+}
+
+.dark {
+  --glass-tint: 26 26 30;
+  --glass-fill: 0.40;
+  --glass-rim: 0.35;
+  --glass-glow: 0.06;
+  --glass-lift: 0 12px 32px rgb(0 0 0 / 0.45);
+  --glass-hairline: rgb(255 255 255 / 0.10);
+  --glass-border: rgb(255 255 255 / 0.14);
+}
+
+/* --------------------------------------------------------------------------
+   Base material: backdrop + tinted fill + reactive sheen + specular rim
+   -------------------------------------------------------------------------- */
+.glass {
+  position: relative;
+  border-radius: var(--glass-radius);
+
+  /* layer 1: reactive specular sheen (part of the background, so text stays
+     crisp — never a pseudo-element above the content) */
+  /* layer 2: tinted body, brighter at the top = volume */
+  background:
+    radial-gradient(60% 80% at var(--glass-mx) var(--glass-my),
+      rgb(255 255 255 / var(--glass-sheen)), transparent 62%),
+    linear-gradient(to bottom,
+      rgb(var(--glass-tint) / calc(var(--glass-fill) + 0.10)),
+      rgb(var(--glass-tint) / var(--glass-fill)));
+
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
+
+  border: 1px solid var(--glass-border);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / var(--glass-rim)),               /* top catch light */
+    inset 0 -1px 0 rgb(255 255 255 / calc(var(--glass-rim) * 0.45)), /* bottom bounce light */
+    inset 0 0 24px rgb(255 255 255 / var(--glass-glow)),             /* thickness */
+    inset 0 0 0 1px var(--glass-hairline),                           /* silhouette */
+    var(--glass-lift);                                               /* separation */
+
+  overflow: hidden;
+}
+
+/* Text and icons sitting directly on glass */
+.glass :where(h1, h2, h3, h4, p, span, a, li, label, td, th),
+.glass:is(h1, h2, h3, h4, p, a, button, label) {
+  text-shadow: 0 1px 2px rgb(0 0 0 / 0.12);
+}
+
+/* --------------------------------------------------------------------------
+   Variants — chosen by what is BEHIND the surface, not by taste
+   -------------------------------------------------------------------------- */
+.glass--clear {          /* over photos/video: content must dominate */
+  --glass-fill: 0.16;
+  --glass-blur: 10px;
+  --glass-rim: 0.45;
+}
+.glass--heavy {          /* structural: sidebars, sheets, modals */
+  --glass-fill: 0.62;
+  --glass-blur: 36px;
+}
+.glass--prominent {      /* primary actions, badges */
+  --glass-tint: 0 122 255;
+  --glass-fill: 0.55;
+  --glass-rim: 0.50;
+}
+.glass--capsule { border-radius: 999px; }
+.glass--sm {
+  --glass-radius: 16px;
+  --glass-blur: 14px;
+}
+.glass--solid {          /* explicit fallback / reduced transparency */
+  --glass-fill: 0.94;
+  --glass-blur: 0px;
+  --glass-sheen: 0;
+}
+
+/* --------------------------------------------------------------------------
+   States
+   -------------------------------------------------------------------------- */
+/* Press feedback only on interactive glass — a toolbar must not shrink on click */
+.glass:where(button, a, [role="button"], [role="tab"], input):active {
+  transform: scale(0.97);
+  transition: transform 100ms ease-out;
+}
+.glass:focus-visible {
+  outline: 2px solid rgb(255 255 255 / 0.9);
+  outline-offset: 2px;
+}
+:root[data-theme="light"] .glass:focus-visible,
+.light .glass:focus-visible {
+  outline-color: rgb(0 0 0 / 0.7);
+}
+
+/* Scroll edge: glass chrome fades in only once content scrolls under it */
+.glass[data-scrolled="false"] {
+  --glass-fill: 0.10;
+  --glass-sheen: 0.10;
+  box-shadow: none;
+  border-color: transparent;
+}
+.glass[data-scrolled] {
+  transition: --glass-fill 200ms ease, --glass-sheen 200ms ease,
+              box-shadow 200ms ease, border-color 200ms ease;
+}
+
+/* --------------------------------------------------------------------------
+   Accessibility — the fallback ships with the component, not later
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-transparency: reduce) {
+  .glass {
+    --glass-fill: 0.95;
+    --glass-blur: 0px;
+    --glass-sheen: 0;
+    background: rgb(var(--glass-tint) / 0.95);
+    border-color: rgb(0 0 0 / 0.18);
+    box-shadow: 0 4px 16px rgb(0 0 0 / 0.18);
+  }
+  .dark .glass { border-color: rgb(255 255 255 / 0.25); }
+}
+
+@media (prefers-contrast: more) {
+  .glass {
+    --glass-fill: 0.96;
+    --glass-blur: 0px;
+    --glass-border: rgb(0 0 0 / 0.75);
+    --glass-rim: 0;
+    --glass-glow: 0;
+  }
+  .dark .glass { --glass-border: rgb(255 255 255 / 0.9); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glass {
+    --glass-mx: 50%;
+    --glass-my: 0%;
+    --glass-sheen: 0.18;
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* No backdrop-filter support: stay legible instead of translucent-on-translucent */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glass { background: rgb(var(--glass-tint) / 0.92); }
+}

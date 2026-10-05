@@ -1,0 +1,42 @@
+# --- Secrets: nothing that can authenticate anywhere ever gets committed ---
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+id_rsa
+id_ed25519
+*.p12
+*.pfx
+secrets/
+credentials/
+.netrc
+.git-credentials
+
+# OpenCode / agent config commonly carries live tokens in plaintext
+opencode.json
+opencode.jsonc
+.mcp.json
+claude.json
+settings.local.json
+
+# --- Eval workspaces: large, machine-local paths, regenerate instead ---
+liquid-glass-workspace/
+brag-output/
+brag-output-*/
+
+# --- Build / deps ---
+node_modules/
+dist/
+build/
+.next/
+*.skill
+
+# --- OS / editor junk ---
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+.idea/
+.vscode/*
+!.vscode/extensions.json
