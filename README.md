@@ -1,8 +1,8 @@
 # Liquid Glass — an OpenCode skill
 
-Build **Apple's Liquid Glass** — the material from iOS 26 / macOS Tahoe 26 (WWDC25) — as an agent skill. Give any coding agent a surface and a stack, and it produces translucent, refractive, light-reactive floating UI instead of generic glassmorphism.
+Build **Liquid Glass** as an agent skill. Give any coding agent a surface and a stack, and it produces translucent, refractive, light-reactive floating UI instead of generic frosted blur.
 
-> **Not just a blur.** Liquid Glass is a material: it refracts what is under it, reflects light from around it, and lenses along its edges. The skill encodes Apple's three governing principles — **hierarchy**, **harmony**, **consistency** — as rules an agent can actually follow.
+> **Not just a blur.** Liquid Glass is a material: it refracts what is under it, reflects light from around it, and lenses along its edges. The skill encodes three governing principles — **hierarchy**, **harmony**, **consistency** — as rules an agent can actually follow.
 
 ## Install
 
@@ -38,8 +38,8 @@ Download `liquid-glass.skill` from the releases, or copy this repo's directory i
 Ask naturally. The skill's description triggers on the concept, not the keyword:
 
 > "Give this toolbar the Liquid Glass treatment"
-> "This glassmorphism looks cheap — make it look like iOS 26"
-> "Build a ⌘K palette with Apple's new design language"
+> "This frosted panel looks cheap — make it a proper material"
+> "Build a ⌘K palette with the Liquid Glass material"
 
 When invoked without a specific task it replies with exactly one line and waits:
 
@@ -53,7 +53,7 @@ When invoked without a specific task it replies with exactly one line and waits:
 | **B — Add refraction** | Tier A + real edge lensing via an SVG `feDisplacementMap` | Chromium only (`backdrop-filter: url()`) |
 | **C — WebGL / shader glass** | Physically-based refraction | Custom canvas |
 
-Tier A is not a consolation prize — Apple's own controls read mostly as *frosted, tinted, edge-lit glass*. Get hierarchy, rim light and concentricity right in Tier A before thinking about refraction. Tier B always ships behind `@supports`, so Safari and Firefox stay legible.
+Tier A is not a consolation prize — the reference controls read mostly as *frosted, tinted, edge-lit glass*. Get hierarchy, rim light and concentricity right in Tier A before thinking about refraction. Tier B always ships behind `@supports`, so Safari and Firefox stay legible.
 
 ## What's inside
 

@@ -1,6 +1,6 @@
-# Native Apple platforms — SwiftUI / UIKit / AppKit
+# Native platforms — SwiftUI / UIKit / AppKit
 
-The system already ships Liquid Glass. Your job on native is **placement and restraint**, not material authoring: don't recreate the blur, take the one the OS gives you. API names below are from the Xcode 26 / iOS 26 / macOS 26 SDK — if the compiler disagrees, the canonical list is Apple's *Adopting Liquid Glass* page.
+The system already ships Liquid Glass. Your job on native is **placement and restraint**, not material authoring: don't recreate the blur, take the one the OS gives you. API names below are from the current SDK — if the compiler disagrees, the canonical list is the platform's adoption guide.
 
 The material rules in SKILL.md still govern: glass is the topmost floating layer, never content; one variant per surface; concentric radii; separation from the content beneath.
 
@@ -48,7 +48,7 @@ GlassEffectContainer(spacing: 8) { … }
 
 ### Placement, native edition
 
-- **Toolbars, tab bars, sidebars, sheets, search fields get glass automatically** when compiled against the iOS 26 SDK. Delete the custom backgrounds you added for iOS 18 — extra paint on top of system glass is exactly what Apple asks you to remove.
+- **Toolbars, tab bars, sidebars, sheets, search fields get glass automatically** when compiled against a current SDK. Delete the custom backgrounds you added for earlier releases — extra paint on top of system glass is exactly what the guidance asks you to remove.
 - `.confirmationAction` toolbar items automatically render as `.glassProminent` — don't restyle them.
 - Tab bars: `tabBarMinimizeBehavior(.onScrollDown)` makes chrome recede when content matters; `search` tab role gives the floating search button; `tabViewBottomAccessory` hosts a persistent glass view.
 - Sheets: system provides the inset glass background. Control it with `presentationBackground` only when you must.
@@ -90,7 +90,7 @@ let glassView = UIVisualEffectView(effect: effect)
 - Tint gives a stained-glass cast — it does **not** reliably apply a solid brand color to `.glass()` configurations. For brand color, set the background yourself and keep glass as the overlay.
 - Toolbars: `UIBarButtonItemGroup` gets the glass treatment; `hidesSharedBackground = true` removes glass from specific items when you need one control to sit directly on content.
 
-## AppKit (macOS 26)
+## AppKit
 
 ```swift
 button.bezelStyle = .glass          // NSButton — Liquid Glass bezel

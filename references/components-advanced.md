@@ -142,7 +142,7 @@ Dashboards are the "content cards in flow" trap. Split the surface:
   --glass-fill: .55; --glass-blur: 30px;
 }
 .launcher__icon {
-  aspect-ratio: 1; border-radius: 24%;          /* squircle-ish, concentric to the tile */
+  aspect-ratio: 1; border-radius: 24%;          /* superellipse-ish, concentric to the tile */
   background:
     radial-gradient(120% 120% at 30% 20%, rgb(255 255 255 / .45), transparent 55%),
     linear-gradient(160deg, rgb(var(--glass-tint) / .75), rgb(var(--glass-tint) / .35));

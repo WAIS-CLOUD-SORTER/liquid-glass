@@ -1,15 +1,15 @@
 ---
 name: liquid-glass
 description: >-
-  Build Apple's Liquid Glass (iOS 26 / macOS Tahoe 26, WWDC25) on the web — translucent,
+  Build the Liquid Glass material on the web — translucent,
   refractive, light-reactive floating UI in CSS, Tailwind v4 and React — and natively in
-  SwiftUI/UIKit/AppKit. Use whenever creating or styling any glassmorphism / frosted-glass /
+  SwiftUI/UIKit/AppKit. Use whenever creating or styling any frosted, blurred or
   translucent surface: toolbars, tab bars, sidebars, nav bars, floating buttons, toggles,
   sliders, sheets, popovers, menus, cards, badges, search fields, app icons, hero overlays.
   Trigger on "Liquid Glass", "liquid glass effect", "glassEffect", "glassEffect()", "iOS 26
-  design", "Apple's new design language", "WWDC25 look", "concentric corners", "edge refraction",
-  "specular highlight", "adaptive glass", or a request to make UI look like "Apple's new OS",
-  "glassy" or "Apple-futuristic". Also use to review or fix existing glassmorphism that looks
+  design", "the Liquid Glass material", "material look", "concentric corners", "edge refraction",
+  "specular highlight", "adaptive glass", or a request to make UI look like "the latest OS",
+  "glassy" or "material-forward". Also use to review or fix existing frosted panels that look
   cheap, milky or unreadable — for hierarchy, legibility, contrast, accessibility or performance
   — even when the user never says "Liquid Glass" and only says "this looks generic" or "this
   looks washed out".
@@ -21,7 +21,7 @@ When invoked without a specific task, reply with exactly one line and wait:
 
 > Liquid Glass ready — name the surface (toolbar, tab bar, card, button, popover…) and the stack, and I'll build it.
 
-Apple's Liquid Glass is a **material, not a skin**: it refracts the content below it, reflects light from around it, and lenses along its edges, so controls read as physical objects floating above the content instead of panels pasted on it. Three principles from Apple's WWDC25 guidance govern every decision below — **hierarchy** (glass is a functional layer floating *above* content), **harmony** (the glass adapts to what is underneath), **consistency** (the same material everywhere, at every size).
+Liquid Glass is a **material, not a skin**: it refracts the content below it, reflects light from around it, and lenses along its edges, so controls read as physical objects floating above the content instead of panels pasted on it. Three principles govern every decision below — **hierarchy** (glass is a functional layer floating *above* content), **harmony** (the glass adapts to what is underneath), **consistency** (the same material everywhere, at every size).
 
 Motion feel, springs and typography live in the `apple-design` skill — this skill owns the material. When both matter, read both.
 
@@ -47,17 +47,17 @@ Also never: stack light glass on light glass (the inner layer blurs an already-b
 | **B — Add refraction** | Tier A + real edge lensing via an SVG displacement filter | **Chromium only** (`backdrop-filter: url(#…)`) | The user explicitly wants true lensing/refraction, and cross-browser is not required |
 | **C — WebGL / shader glass** | Physically-based refraction | Everywhere (custom canvas) | Never by default. Only for a hero/showcase piece worth the code |
 
-Tier A is not a consolation prize — Apple's own controls read mostly as *frosted, tinted, edge-lit glass*. Get hierarchy, rim light and concentricity right in Tier A before even thinking about refraction. If you go Tier B, ship Tier A as the fallback behind `@supports`/`CSS.supports`, because Safari and Firefox drop the effect entirely otherwise.
+Tier A is not a consolation prize — the reference controls read mostly as *frosted, tinted, edge-lit glass*. Get hierarchy, rim light and concentricity right in Tier A before even thinking about refraction. If you go Tier B, ship Tier A as the fallback behind `@supports`/`CSS.supports`, because Safari and Firefox drop the effect entirely otherwise.
 
 ## Where glass belongs
 
 Use it for nav/toolbars, tab bars, sidebars, status bars, floating palettes; controls that hover over content (buttons, toggles, sliders, segmented controls, FABs); ephemeral surfaces (popovers, menus, sheets, toasts, tooltips, scrims); and badges, pills, capsules, app-icon-like objects.
 
-Do **not** use it for page/body backgrounds or long reading surfaces; content cards that sit in the document flow; dense data read for minutes at a time; light glass stacked on light glass; or custom chrome painted on top of controls that should recede (Apple asks you to *remove* custom backgrounds from controls, not multiply them).
+Do **not** use it for page/body backgrounds or long reading surfaces; content cards that sit in the document flow; dense data read for minutes at a time; light glass stacked on light glass; or custom chrome painted on top of controls that should recede (the guidance asks you to *remove* custom backgrounds from controls, not multiply them).
 
 Glass must have **clear separation from the content beneath** — a defined rim plus a lift shadow. Without it the edge dissolves and text under the glass fights text over it.
 
-## Concentricity — the rule that makes it look Apple
+## Concentricity — the rule that makes it read correctly
 
 Every nested rounded rectangle must be concentric with its container: the child's corner radius = **container radius − inset padding**, so the two corners share a centre. The tokens are declared in `assets/liquid-glass.css`, so this works the moment you import the sheet:
 
@@ -73,7 +73,7 @@ Every nested rounded rectangle must be concentric with its container: the child'
 - A glass surface nested in another glass surface can just take `glass glass--concentric`.
 - Standalone, unnested controls use their own token (`--radius-control: 16px`) rather than the formula.
 - Large containers hug the hardware/window corners (big radius); **big controls become capsules** (`999px`), small ones keep a modest radius.
-- Apple's shapes are continuous (squircle). `border-radius` gives circular corners — acceptable parity. Use `corner-shape`/clip-path only if you are chasing pixel parity and have verified support.
+- Continuous (superellipse) shapes are the reference. `border-radius` gives circular corners — acceptable parity. Use `corner-shape`/clip-path only if you are chasing pixel parity and have verified support.
 
 ## The material — Tier A core recipe
 
@@ -151,7 +151,7 @@ Anatomy, weakest cue to strongest — this is what to reason with when tuning:
 | *(none)* | .46 | 22 | the default floating surface |
 | `glass--clear` | .16 | 10 | over photos/video, where content must dominate (add a dimming scrim) |
 | `glass--heavy` | .62 | 36 | structural: sidebars, sheets, modals |
-| `glass--prominent` | .55 | — | primary actions and badges; tints to Apple blue `0 122 255` |
+| `glass--prominent` | .55 | — | primary actions and badges; tints to system blue `0 122 255` |
 | `glass--sm` | .46 | 14 | chips and small controls (radius 16px) |
 | `glass--capsule` | — | — | large controls (`border-radius: 999px`) |
 | `glass--concentric` | — | — | nested in another glass surface (radius − `--inset`) |
@@ -165,7 +165,7 @@ Pick the variant from the *content behind*, not from taste, and never mix two va
 - **Materialize, don't fade.** Enter/exit animate `transform` + `opacity` **together** with the surface: `scale(0.96)` + `opacity 0` → rest. Never animate `blur()` radius or `backdrop-filter` — that forces a repaint every frame and drops frames.
 - **Register the tokens you intend to ease.** An unregistered custom property is a string: `transition: --glass-fill 200ms` silently does nothing, and a gradient reading it snaps instead of interpolating. The `@property` block above declares the six that are worth easing; `--glass-tint` and `--glass-lift` stay unregistered because their values are composites, not scalars.
 - **Press = spring up.** On `:active`, `scale(0.97)` immediately, plus a small sheen lift. Release springs back.
-- **Morph between states.** Collapsing a toolbar into a pill, or a control receding when the user scrolls to focus content, is a `border-radius`/`transform` transition — Apple's controls "recede when content matters, expand the moment they're needed".
+- **Morph between states.** Collapsing a toolbar into a pill, or a control receding when the user scrolls to focus content, is a `border-radius`/`transform` transition — the reference controls "recede when content matters, expand the moment they're needed".
 - **Anchor to the source.** Popovers and menus grow from the trigger (`transform-origin` at the button).
 
 ## Accessibility — non-negotiable, and design it in from the start
@@ -173,7 +173,7 @@ Pick the variant from the *content behind*, not from taste, and never mix two va
 Glass degrades legibility, so the fallback is part of the component, not an afterthought. `assets/liquid-glass.css` ships all of these; paste them if you are inlining:
 
 ```css
-@media (prefers-reduced-transparency: reduce) {          /* Apple's "Reduce Transparency" */
+@media (prefers-reduced-transparency: reduce) {          /* "Reduce Transparency" */
   .glass { --glass-fill: 0.95; --glass-blur: 0px; --glass-sheen: 0;
            --glass-border: rgb(0 0 0 / 0.18); --glass-lift: 0 4px 16px rgb(0 0 0 / 0.18); }
   .dark .glass { --glass-border: rgb(255 255 255 / 0.25); }

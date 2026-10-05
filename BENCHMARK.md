@@ -64,7 +64,7 @@ The v1 skill had bugs that made its own headline rules unusable. All were found 
 
 ### New coverage
 
-- **`references/review.md`** — the description has always advertised "review existing glassmorphism", but no file backed it. Now there is an audit playbook: an order of operations, a three-tier severity model (blocking / wrong material / polish), a failure catalogue, a fixed report format, and an explicit list of what *not* to change.
+- **`references/review.md`** — the description has always advertised "review existing frosted panels", but no file backed it. Now there is an audit playbook: an order of operations, a three-tier severity model (blocking / wrong material / polish), a failure catalogue, a fixed report format, and an explicit list of what *not* to change.
 - **`forced-colors` and `print`** handled. Windows High Contrast removes every rim and glow cue the material is built from, so the surface now gets a real `CanvasText` border.
 - **An honest Firefox note.** Firefox does not implement `prefers-reduced-transparency` and no web API exposes the OS setting, so the media query is a partial guarantee. The documented pattern is the automatic path plus `glass--solid` as a real user-facing switch — and both set the same tokens so they cannot drift.
 - **Eval set: 3 → 6 evals, 19 → 66 expectations.** New: `audit-existing-glass` (the review route), `tier-b-refraction` (Tier B was entirely unmeasured), `native-swiftui-toolbar` (the native route was unmeasured). Every existing eval gained the concentricity, `@supports`, `forced-colors` and `color-scheme` expectations that were missing.

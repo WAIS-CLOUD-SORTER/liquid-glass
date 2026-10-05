@@ -14,7 +14,7 @@ Work in this order. Each step depends on the one before it, and skipping ahead m
    ```
 2. **Inventory every surface.** List each element that carries `backdrop-filter` or a translucent background, and sort it into **floating** or **reading**. This single classification produces most of the findings below.
 3. **Check the blocking failures first** — legibility, missing fallbacks, cost. These affect users.
-4. **Then the craft failures** — rim, concentricity, variant discipline, motion. These affect whether it reads as Apple.
+4. **Then the craft failures** — rim, concentricity, variant discipline, motion. These affect whether it reads as a real material.
 5. **Re-verify visually** over a busy *and* a plain backdrop, light and dark, before you claim anything.
 
 ## Severity model
@@ -24,7 +24,7 @@ Use these three tiers. They are not interchangeable: a P1 makes the UI unusable 
 | Tier | Meaning | Examples |
 | --- | --- | --- |
 | **P1 — blocks someone** | A user cannot read the content, or is excluded by an accessibility setting, or the page janks | reading surface under 0.85 fill; text at mid-gray on translucent white; no `prefers-reduced-transparency` path; 40+ live glass surfaces over scrolling content; glass nested in glass over a video |
-| **P2 — wrong material** | Usable, but it is not Liquid Glass — it is generic glassmorphism | no specular rim so it reads as a blurred div; fill/blur that ignore the backdrop; light glass on light glass; a variant chosen by taste rather than by what is behind |
+| **P2 — wrong material** | Usable, but it is not Liquid Glass — it is generic frosted blur | no specular rim so it reads as a blurred div; fill/blur that ignore the backdrop; light glass on light glass; a variant chosen by taste rather than by what is behind |
 | **P3 — polish** | Reads correctly; a detail is off | radius not concentric; blur radius disproportionate to surface size; rim too strong in dark mode; no `color-scheme`; no print styles |
 
 Report P1 findings even when they are invisible in a screenshot. That is the point of them — they only show up on a busy background, in dark mode, or with an accessibility setting on, which is exactly what nobody checked.
@@ -63,7 +63,7 @@ Lead with what is actually broken. Use this structure so the reader can triage w
 
 ```markdown
 ## Verdict
-<Two sentences: does this read as Apple's Liquid Glass, and does it work for everyone?>
+<Two sentences: does this read as Liquid Glass, and does it work for everyone?>
 
 ## Blocking (P1)
 - `path/to/file.css:42` — reading surface at fill 0.58

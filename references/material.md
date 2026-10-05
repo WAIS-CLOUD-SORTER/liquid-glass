@@ -43,7 +43,7 @@ Dark glass is not "light glass with the tint flipped":
 
 - In dark mode the inner white glow (`inset 0 0 24px rgb(255 255 255 / .10)`) should drop to ~0.06 — otherwise the surface looks milky.
 - In light mode, add a faint *dark* hairline (`inset 0 0 0 1px rgb(0 0 0 / .05)`): on a white page the rim alone doesn't define the silhouette.
-- Adaptive tint: for glass over a known brand color, tint with a small alpha of that color instead of neutral gray — that's Apple's vibrancy idea (color lives on a solid layer, not on the text).
+- Adaptive tint: for glass over a known brand color, tint with a small alpha of that color instead of neutral gray — that's the vibrancy idea (color lives on a solid layer, not on the text).
 
 ## 3. Edge light and rim craft
 
@@ -119,8 +119,8 @@ Honest constraints — state them if you use Tier B:
   ```
 - **The map must match the element's box.** `preserveAspectRatio="none"` + percentage sizing stretches it; if a component resizes constantly, the filter region (`x/y/width/height`) and the map need to follow, or the lens drifts off the edge.
 - **It is expensive.** Displacement + blur over a moving backdrop is a per-frame GPU cost; use it on a handful of hero elements, not on a list of 50 rows.
-- **Tuning is visual, not formulaic.** Start at `scale="36"`; 20 is a barely-there rim, 60+ is a heavy magnifier. The ramp stops in the map control *where* the bend happens: neutral band 0.14–0.86 → lensing confined to the outer ~14% (the Apple look); widen the neutral band and you get an all-over zoom instead of an edge lens. Rebuild the map when the corner radius changes drastically.
-- **Real refraction bends content *outside* the element's bounds**, which `backdrop-filter` cannot do (it only samples the backdrop within the border box). Perfect parity with Apple's lensing would need a shader; Tier B is an approximation inside the box.
+- **Tuning is visual, not formulaic.** Start at `scale="36"`; 20 is a barely-there rim, 60+ is a heavy magnifier. The ramp stops in the map control *where* the bend happens: neutral band 0.14–0.86 → lensing confined to the outer ~14% (the reference look); widen the neutral band and you get an all-over zoom instead of an edge lens. Rebuild the map when the corner radius changes drastically.
+- **Real refraction bends content *outside* the element's bounds**, which `backdrop-filter` cannot do (it only samples the backdrop within the border box). Perfect parity with true lensing would need a shader; Tier B is an approximation inside the box.
 
 ## 5. Browser support matrix
 

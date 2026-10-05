@@ -1,5 +1,5 @@
 /* ==========================================================================
-   liquid-glass.css — Apple Liquid Glass material, drop-in
+   liquid-glass.css — Liquid Glass material, drop-in
    Tier A (all modern browsers). Refraction (Tier B) lives in
    references/material.md and is progressive enhancement only.
 
@@ -33,7 +33,7 @@
   /* shape */
   --glass-radius: 28px;
 
-  /* Concentricity — the geometry behind the rule that makes glass read as Apple.
+  /* Concentricity — the geometry behind the rule that makes glass read as a real material.
      Declared here so `calc(var(--radius-window) - var(--inset))` resolves out of
      the box; without them the calc is invalid at computed-value time and the
      child's border-radius silently collapses to 0.

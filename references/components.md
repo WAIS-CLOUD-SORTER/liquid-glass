@@ -55,7 +55,7 @@ Large controls become **capsules**; keep the group small so it reads as one obje
 }
 ```
 
-The **selection lens** (a solid pill behind the active item) is the signature of iOS 26 tab bars: the glass group stays translucent, the selected item becomes a brighter, denser lens. Animate the lens with a shared-element/spring move rather than cross-fading two backgrounds. Keep the lens **near-opaque (≥ 0.85)** or a low-alpha wash (≤ 0.15) — a mid-alpha lens on mid-alpha glass is two translucent layers stacked, which is exactly the illegibility Apple avoids.
+The **selection lens** (a solid pill behind the active item) is the signature of a modern capsule tab bar: the glass group stays translucent, the selected item becomes a brighter, denser lens. Animate the lens with a shared-element/spring move rather than cross-fading two backgrounds. Keep the lens **near-opaque (≥ 0.85)** or a low-alpha wash (≤ 0.15) — a mid-alpha lens on mid-alpha glass is two translucent layers stacked, which is exactly the illegibility this avoids.
 
 ## Sidebar
 
@@ -90,7 +90,7 @@ Sidebar rows over a sidebar are **not** another glass layer — use a flat trans
 - **One primary action per view** gets `prominent`; everything else stays regular glass.
 - A button nested in a toolbar or sheet takes `glass--concentric` instead of setting a radius, so it stays concentric when the container's radius is retuned. Writing `--glass-radius: calc(var(--glass-radius) - 8px)` on the child reads its own inherited value — it happens to work and silently stops working the moment the parent changes.
 - Icons: SF-Symbols-style weight (≈1.5–2px stroke at 20px), `currentColor`, no filled cartoon icons on glass.
-- Remove custom backgrounds Apple wouldn't have: if the system control already gives you glass, don't paint over it.
+- Remove custom backgrounds the system wouldn't have: if the system control already gives you glass, don't paint over it.
 
 ## Card
 

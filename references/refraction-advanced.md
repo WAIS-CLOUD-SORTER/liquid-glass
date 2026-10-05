@@ -82,7 +82,7 @@ node assets/make-refraction-map.mjs --axis x --edge 0.3 --hard
 
 | Flag | Default | Meaning |
 | --- | --- | --- |
-| `--edge` | `0.14` | Half-width of the lens band. Smaller = bend confined to the rim (Apple look); larger = all-over zoom. Must be 0–0.5. |
+| `--edge` | `0.14` | Half-width of the lens band. Smaller = bend confined to the rim (reference look); larger = all-over zoom. Must be 0–0.5. |
 | `--strength` | `0.63` | 0–1. How far the borders deviate from neutral (`0x80`). Pair with the filter's `scale`. |
 | `--steps` | `2` | Stops per side. More stops = a smoother, shoulder-shaped bend. |
 | `--axis` | `both` | `x`, `y`, or `both`. |
@@ -145,7 +145,7 @@ void main() {
 Practical rules for Tier C:
 
 - **Port Tier A's decisions, not its implementation.** Same variants (regular/clear/prominent), same concentricity, same "glass is a floating layer" rules. A shader that bends text you then can't read has failed the same checklist.
-- **Refraction amplitude stays small** (2–6% of UV). Apple's lensing is a lip, not a funhouse mirror.
+- **Refraction amplitude stays small** (2–6% of UV). True lensing is a lip, not a funhouse mirror.
 - **Bend edges, not centers** — `smoothstep` over the border band, exactly like the map's neutral band.
 - Blend the fill/tint/rim **in the shader or as a DOM overlay**, but pick one: a CSS `background` over a canvas double-composites the specular.
 - Cost: a fullscreen fragment pass per glass surface. Budget **one**, and pause the loop (`cancelAnimationFrame`) when off-screen via `IntersectionObserver`.

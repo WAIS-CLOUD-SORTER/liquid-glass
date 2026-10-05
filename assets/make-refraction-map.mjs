@@ -50,7 +50,7 @@ const NEUTRAL = Math.round(mid * 255);
 const delta = Math.round(strength * (invert ? -127 : 127));
 const hex = (v) => Math.max(0, Math.min(255, Math.round(v))).toString(16).padStart(2, "0");
 
-// Ease the ramp so the bend eases INTO the neutral band (Apple's look is a
+// Ease the ramp so the bend eases INTO the neutral band (the reference look is a
 // soft shoulder, not a crease). --hard gives a straight linear ramp instead.
 function shoulder(t) {
   if (hard) return t;
